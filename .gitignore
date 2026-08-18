@@ -8,3 +8,29 @@
 # Node modules / Logs
 node_modules/
 *.log
+
+
+# Environments
+.env
+.env.*
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+
+# Coverage
+coverage/
+
+# Misc
+Thumbs.db
+.cache
+
+# Testing
+test_results.xml
