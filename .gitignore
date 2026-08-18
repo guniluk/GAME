@@ -1,0 +1,10 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+**/.DS_Store
+
+# Node modules / Logs
+node_modules/
+*.log
