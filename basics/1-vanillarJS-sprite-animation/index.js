@@ -1,38 +1,39 @@
-let playerState = 'idle';
-const dropdown = document.getElementById('animations');
+let playerState = "idle";
+const dropdown = document.getElementById("animations");
 if (dropdown) {
-  dropdown.addEventListener('change', function (e) {
+  dropdown.addEventListener("change", function (e) {
     playerState = e.target.value;
   });
 }
 
-const canvas = document.getElementById('canvas1');
-const ctx = canvas.getContext('2d');
+const canvas = document.getElementById("canvas1");
+const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = (canvas.width = 600);
 const CANVAS_HEIGHT = (canvas.height = 600);
-canvas.style.border = '3px solid black';
+canvas.style.border = "3px solid black";
 
-const spriteWidth = 575; // 6876 / 12;
+const spriteWidth = 575; // 6876 / 12; per image size in png file
 const spriteHeight = 523; // 5230 / 10;
 
 const playerImage = new Image();
-playerImage.src = './images/shadow_dog.png';
+playerImage.src = "./images/shadow_dog.png";
 
 let gameFrame = 0;
 const staggerFrame = 5;
 
 const spriteAnimations = [];
+// images in png file
 const animationStates = [
-  { name: 'idle', frames: 7 },
-  { name: 'jump', frames: 7 },
-  { name: 'fall', frames: 7 },
-  { name: 'run', frames: 9 },
-  { name: 'dizzy', frames: 11 },
-  { name: 'sit', frames: 5 },
-  { name: 'roll', frames: 7 },
-  { name: 'bite', frames: 7 },
-  { name: 'ko', frames: 12 },
-  { name: 'getHit', frames: 4 },
+  { name: "idle", frames: 7 },
+  { name: "jump", frames: 7 },
+  { name: "fall", frames: 7 },
+  { name: "run", frames: 9 },
+  { name: "dizzy", frames: 11 },
+  { name: "sit", frames: 5 },
+  { name: "roll", frames: 7 },
+  { name: "bite", frames: 7 },
+  { name: "ko", frames: 12 },
+  { name: "getHit", frames: 4 },
 ];
 
 animationStates.forEach((state, index) => {
@@ -57,6 +58,7 @@ function animate() {
   let frameX = spriteAnimations[playerState].loc[position].x;
   let frameY = spriteAnimations[playerState].loc[position].y;
 
+  //ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
   ctx.drawImage(
     playerImage,
     frameX,
@@ -68,8 +70,8 @@ function animate() {
     spriteWidth,
     spriteHeight,
   );
-
   gameFrame++;
   requestAnimationFrame(animate);
 }
+
 animate();
