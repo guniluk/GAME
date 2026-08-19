@@ -1,13 +1,46 @@
 body {
   margin: 0;
-  background-color: #0e3521;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #2b2d42;
+  font-family: sans-serif;
+  color: #edf2f4;
 }
 
-canvas {
-  border: 5px solid black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.controls {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.controls select {
+  padding: 8px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 2px solid #8d99ae;
+  background-color: #edf2f4;
+  color: #2b2d42;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.controls select:hover {
+  border-color: #ef233c;
+}
+
+#canvas1 {
+  border: 3px solid #edf2f4;
+  border-radius: 8px;
+  width: 500px;
+  height: 700px;
   background-color: #ddd7d5;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }

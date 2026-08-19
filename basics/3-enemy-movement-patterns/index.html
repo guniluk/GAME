@@ -3,10 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>enemy movement patterns</title>
+    <title>Enemy Movement Patterns</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="controls">
+      <label for="movementPattern">Choose Movement Pattern:</label>
+      <select id="movementPattern" name="movementPattern">
+        <option value="all">All (모두 보기)</option>
+        <option value="enemy1">Pattern 1: Random Wiggle (떨림 방황)</option>
+        <option value="enemy2">Pattern 2: Sine Wave (사인파 물결)</option>
+        <option value="enemy3">Pattern 3: Orbit & Curve (8자/원형 궤도)</option>
+        <option value="enemy4">Pattern 4: Target Chase (목표 추적 이동)</option>
+      </select>
+    </div>
     <canvas id="canvas1"></canvas>
     <script src="script.js"></script>
   </body>
