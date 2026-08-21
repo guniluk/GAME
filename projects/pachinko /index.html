@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍒 체리 마스터 (Cherry Master / 8-Liner) 클래식 슬롯머신</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Press+Start+2P&family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="arcade-cabinet">
+    <!-- 캐비닛 상단 네온 마퀴 -->
+    <header class="marquee">
+      <div class="marquee-glow"></div>
+      <div class="logo-container">
+        <span class="dyna-logo">DYNA</span>
+        <h1 class="game-title">CHERRY MASTER <span class="edition">’96 SPECIAL</span></h1>
+      </div>
+      <div class="header-actions">
+        <!-- 🍒 체리 5회 누적 게이지 (헤더 통합) -->
+        <div class="cherry-gauge-marquee" id="cherryGaugeContainer" title="체리 2개 라인 완성 5회 누적 시 빅보너스 발동!">
+          <span class="cherry-label">🍒 CHERRY:</span>
+          <div class="cherry-lamps">
+            <span class="c-lamp" id="clamp0"></span>
+            <span class="c-lamp" id="clamp1"></span>
+            <span class="c-lamp" id="clamp2"></span>
+            <span class="c-lamp" id="clamp3"></span>
+            <span class="c-lamp" id="clamp4"></span>
+          </div>
+          <span class="cherry-gauge-text" id="cherryGaugeText">[0/5]</span>
+        </div>
+
+        <button id="btnTogglePaytable" class="arcade-btn btn-paytable" title="배당표 보기 (P)">
+          <span class="key-hint">P</span>
+          <span class="btn-text">📋 PAYTABLE<br><small>배당표 보기</small></span>
+        </button>
+        <div class="jackpot-badge">
+          <span class="badge-title">JACKPOT</span>
+          <span class="jackpot-amount" id="jackpotAmount">$20,000</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 메인 캔버스 뷰포트 (3x3 릴 최대화) -->
+    <main class="viewport">
+      <div class="screen-frame">
+        <canvas id="gameCanvas" width="960" height="640"></canvas>
+        <div class="crt-scanlines"></div>
+      </div>
+
+      <!-- 배당표 팝업 모달 (선택 시만 노출) -->
+      <div id="paytableModal" class="paytable-modal hidden">
+        <div class="paytable-content">
+          <div class="modal-header">
+            <h2>🏆 CHERRY MASTER PAYTABLE (배당표)</h2>
+            <button id="btnClosePaytable" class="btn-close-modal">✖ 닫기</button>
+          </div>
+          <div class="paytable-grid">
+            <div class="pay-card card-jackpot">
+              <span class="pay-sym">🎰 ALL 7s (올세븐)</span>
+              <span class="pay-desc">9개 칸 전체 7 도배</span>
+              <span class="pay-val">$20,000</span>
+            </div>
+            <div class="pay-card card-jackpot" style="background: linear-gradient(90deg, #661026 0%, #a81339 50%, #661026 100%); border-color: #ff1744;">
+              <span class="pay-sym">🍓 ALL FRUITS (올 과일)</span>
+              <span class="pay-desc">9개 칸 모두 과일(체리/멜론/오렌지/수박) 도배</span>
+              <span class="pay-val">$500 + 1회 무료 보너스 롤 (+각 라인별 점수 합산)</span>
+            </div>
+            <div class="pay-card card-seven-triple">
+              <span class="pay-sym">7️⃣ 7 & 777 라인 당첨 (혼합 가능 + 1회 보너스)</span>
+              <span class="pay-desc">7과 777이 라인을 이루면 고배당 당첨 + 1회 무료 보너스 롤 발동 (777 개수 비례 가점)</span>
+              <span class="pay-val">7 세 개: $500 / 777 1개: $580 / 777 2개: $660 / 777 세 개: $750 (+각각 1회 보너스)</span>
+            </div>
+            <div class="pay-card card-bar3">
+              <span class="pay-sym">🟦 3-BAR 3개 라인</span>
+              <span class="pay-desc">블루 트리플 바</span>
+              <span class="pay-val">$200</span>
+            </div>
+            <div class="pay-card card-bar2">
+              <span class="pay-sym">🟨 2-BAR 3개 라인</span>
+              <span class="pay-desc">골드 더블 바</span>
+              <span class="pay-val">$100</span>
+            </div>
+            <div class="pay-card card-bar1">
+              <span class="pay-sym">🟩 1-BAR 3개 라인</span>
+              <span class="pay-desc">그린 싱글 바</span>
+              <span class="pay-val">$50 + BAR보너스(5회)</span>
+            </div>
+            <div class="pay-card">
+              <span class="pay-sym">🍉 수박 3개 라인</span>
+              <span class="pay-desc">타원형 반쪽 수박</span>
+              <span class="pay-val">$50</span>
+            </div>
+            <div class="pay-card card-bell">
+              <span class="pay-sym">🔔 종 (Bell) 3개 라인</span>
+              <span class="pay-desc">황금 종 3개 일치</span>
+              <span class="pay-val">$30 + 종보너스(5회)</span>
+            </div>
+            <div class="pay-card">
+              <span class="pay-sym">🫐 멜론 3개 라인</span>
+              <span class="pay-desc">가로 타원형 블루 멜론</span>
+              <span class="pay-val">$20</span>
+            </div>
+            <div class="pay-card">
+              <span class="pay-sym">🍊 귤 (Orange) 3개 라인</span>
+              <span class="pay-desc">가로 타원형 귤</span>
+              <span class="pay-val">$10</span>
+            </div>
+            <div class="pay-card card-cherry">
+              <span class="pay-sym">🍒 체리 라인 당첨</span>
+              <span class="pay-desc">1열/1행 시작점에서 연속 등장 시 (체리 1개는 점수만 지급)</span>
+              <span class="pay-val">1개: $1 / 2개: $3 (+게이지 1회) / 3개: $5 (+1회 보너스)</span>
+            </div>
+            <div class="pay-card card-cherry-bonus">
+              <span class="pay-sym">🍒 체리 5회 누적 빅보너스</span>
+              <span class="pay-desc">체리 2개 라인 완성 5회 누적 시 (체리 1개는 미적립)</span>
+              <span class="pay-val">체리 빅보너스 5회 무료 스핀</span>
+            </div>
+            <div class="pay-card card-scatter">
+              <span class="pay-sym">🎰 7 & 777 스캐터 (위치/라인 무관 혼합 당첨)</span>
+              <span class="pay-desc">화면 어디든 7/777이 섞여서 2개 이상 등장 시 당첨 (777 개수에 비례하여 추가 가점)</span>
+              <span class="pay-val">2개: $50(+30) / 3개: $150(+50) / 4개: $300(+80) / 5개+: $500~2,000+</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span>※ 모든 당첨금은 중복 합산 지급됩니다. [P] 키나 [닫기]를 눌러 게임으로 돌아갑니다.</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 하단 아케이드 물리 컨트롤 패널 -->
+    <footer class="control-panel">
+      <!-- 상태 계기판 (LED 모듈) -->
+      <div class="led-dashboard">
+        <div class="led-box credit-box">
+          <span class="led-label">CREDIT</span>
+          <span class="led-value" id="displayCredit">000</span>
+        </div>
+        <div class="led-box bet-box">
+          <span class="led-label">BET (LINES)</span>
+          <span class="led-value" id="displayBet">8 (8L)</span>
+        </div>
+        <div class="led-box win-box">
+          <span class="led-label">WIN PAID</span>
+          <span class="led-value highlight" id="displayWin">000</span>
+        </div>
+        <div class="led-box bonus-box">
+          <span class="led-label">BONUS SPINS</span>
+          <span class="led-value" id="displayBonus">--</span>
+        </div>
+      </div>
+
+      <!-- 물리 버튼 컨트롤러 (슬롯 모드) -->
+      <div class="btn-dashboard" id="slotControls">
+        <div class="btn-group left-group">
+          <button id="btnCoin" class="arcade-btn btn-gold" title="코인 투입 (C)">
+            <span class="key-hint">C</span>
+            <span class="btn-text">COIN IN<br><small>+$100</small></span>
+          </button>
+          <button id="btnBet1" class="arcade-btn btn-blue" title="1라인 베팅 (B)">
+            <span class="key-hint">B</span>
+            <span class="btn-text">BET 1<br><small>라인 추가</small></span>
+          </button>
+          <button id="btnMaxBet" class="arcade-btn btn-purple" title="맥스 8라인 베팅 (M)">
+            <span class="key-hint">M</span>
+            <span class="btn-text">MAX BET<br><small>8 라인</small></span>
+          </button>
+        </div>
+
+        <!-- 릴 개별 정지 버튼들 -->
+        <div class="btn-group stop-group">
+          <button id="btnStop1" class="arcade-btn btn-stop" title="릴 1 정지 (1)">
+            <span class="key-hint">1</span>
+            <span class="btn-text">STOP 1</span>
+          </button>
+          <button id="btnStop2" class="arcade-btn btn-stop" title="릴 2 정지 (2)">
+            <span class="key-hint">2</span>
+            <span class="btn-text">STOP 2</span>
+          </button>
+          <button id="btnStop3" class="arcade-btn btn-stop" title="릴 3 정지 (3)">
+            <span class="key-hint">3</span>
+            <span class="btn-text">STOP 3</span>
+          </button>
+        </div>
+
+        <div class="btn-group right-group">
+          <!-- 더블찬스 도전 버튼 (당첨 시 반짝임) -->
+          <button id="btnDoubleUp" class="arcade-btn btn-doubleup hidden" title="더블찬스 도전 (D)">
+            <span class="key-hint">D</span>
+            <span class="btn-text">DOUBLE UP<br><small>2배 도전!</small></span>
+          </button>
+          <button id="btnAuto" class="arcade-btn btn-cyan" title="자동 회전 (A)">
+            <span class="key-hint">A</span>
+            <span class="btn-text">AUTO<br><small id="autoState">OFF</small></span>
+          </button>
+          <button id="btnSpin" class="arcade-btn btn-red btn-spin-huge" title="스핀 시작 / 일괄 정지 (Space)">
+            <span class="key-hint">SPACE</span>
+            <span class="btn-text" id="spinBtnText">START</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 물리 버튼 컨트롤러 (더블찬스 모드 전용) -->
+      <div class="btn-dashboard double-controls" id="doubleControls" style="display: none;">
+        <div class="btn-group center-group double-actions">
+          <button id="btnChoiceLow" class="arcade-btn btn-blue btn-highlow" title="로우 선택 (A ~ 6) [L / ↓]">
+            <span class="key-hint">L / ↓</span>
+            <span class="btn-text">▼ LOW<br><small>A ~ 6 (낮음)</small></span>
+          </button>
+          <button id="btnChoiceHigh" class="arcade-btn btn-red btn-highlow" title="하이 선택 (8 ~ K) [H / ↑]">
+            <span class="key-hint">H / ↑</span>
+            <span class="btn-text">▲ HIGH<br><small>8 ~ K (높음)</small></span>
+          </button>
+        </div>
+
+        <div class="btn-group right-group">
+          <button id="btnExitDouble" class="arcade-btn btn-gold btn-large-action" title="점수 수령 후 본게임 복귀 (ESC / T / Space)">
+            <span class="key-hint">ESC / T</span>
+            <span class="btn-text">💰 점수 수령 후 복귀<br><small>TAKE & EXIT</small></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 단축키 안내 바 -->
+      <div class="shortcut-guide">
+        <span id="guideSlot"><b>[Space]</b> 스타트 | <b>[D]</b> 더블찬스 | <b>[P]</b> 배당표 | <b>[C]</b> 코인 | <b>[B/M]</b> 베팅</span>
+        <span id="guideDouble" class="hidden"><b>[H / ↑]</b> HIGH | <b>[L / ↓]</b> LOW | <b>[ESC / T / Space]</b> 점수 수령 후 복귀</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 사운드 및 게임 스크립트 로드 -->
+  <script src="sound.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

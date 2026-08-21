@@ -1,15 +1,20 @@
 body {
   margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
 #canvas1 {
-  border: 3px solid black;
+  border: 5px solid white;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: lightblue;
   width: 500px;
   height: 700px;
+  background-color: rgb(204, 201, 201);
+}
+
+img {
+  display: none;
 }

@@ -1,0 +1,564 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  background: radial-gradient(circle at 50% 30%, #1a162b 0%, #0d0b18 60%, #05040a 100%);
+  color: #fff;
+  font-family: 'Pretendard', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  overflow-x: hidden;
+}
+
+/* 아케이드 캐비닛 컨테이너 */
+.arcade-cabinet {
+  width: 100%;
+  max-width: 1060px;
+  background: linear-gradient(180deg, #2b2543 0%, #1b162c 40%, #110d1f 100%);
+  border: 4px solid #4a3d75;
+  border-radius: 18px;
+  box-shadow: 
+    0 0 40px rgba(255, 0, 85, 0.35),
+    0 0 70px rgba(0, 240, 255, 0.2),
+    inset 0 0 25px rgba(0, 0, 0, 0.8);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+/* 상단 마퀴(Marquee) */
+.marquee {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #181329 0%, #301f4a 50%, #181329 100%);
+  border: 2px solid #ff0077;
+  border-radius: 10px;
+  padding: 8px 16px;
+  box-shadow: 0 0 15px rgba(255, 0, 119, 0.5), inset 0 0 10px rgba(255, 0, 119, 0.3);
+}
+
+.logo-container {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.dyna-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: #00f0ff;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px #00f0ff, 0 0 25px #00a2ff;
+  border: 2px solid #00f0ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.game-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffde59;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 222, 89, 0.8), 2px 2px 0 #b30000;
+}
+
+.edition {
+  font-size: 13px;
+  color: #ff3366;
+  text-shadow: 0 0 8px #ff3366;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 헤더 체리 5칸 램프 게이지 */
+.cherry-gauge-marquee {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #110d24;
+  border: 1.5px solid #ff0077;
+  border-radius: 8px;
+  padding: 5px 10px;
+  box-shadow: 0 0 10px rgba(255, 0, 119, 0.4);
+}
+
+.cherry-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ff0077;
+}
+
+.cherry-lamps {
+  display: flex;
+  gap: 4px;
+}
+
+.c-lamp {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2a1122;
+  border: 1.5px solid #552244;
+  transition: all 0.2s ease;
+}
+
+.c-lamp.lit {
+  background: #ff0055;
+  border-color: #fff;
+  box-shadow: 0 0 8px #ff0055, 0 0 14px #ff0077;
+}
+
+.cherry-gauge-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffde59;
+}
+
+.btn-paytable {
+  background: linear-gradient(180deg, #ffd700 0%, #b8860b 100%);
+  border: 2px solid #fff;
+  color: #000;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.jackpot-badge {
+  background: radial-gradient(circle, #ffe600 0%, #d48800 80%, #704000 100%);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  padding: 5px 12px;
+  text-align: center;
+  box-shadow: 0 0 16px rgba(255, 230, 0, 0.8);
+  animation: pulseJackpot 1.5s infinite alternate;
+}
+
+@keyframes pulseJackpot {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.05); filter: brightness(1.25); }
+}
+
+.badge-title {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #000;
+  font-weight: 900;
+}
+
+.jackpot-amount {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #7b0000;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+/* 메인 캔버스 뷰포트 */
+.viewport {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  border-radius: 12px;
+  border: 3px solid #1a2936;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+}
+
+.screen-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 960 / 640;
+  max-height: 640px;
+}
+
+#gameCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #070913;
+}
+
+/* 레트로 CRT 스캔라인 오버레이 (초미세 투명 효과) */
+.crt-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.015) 50%, 
+    rgba(0, 0, 0, 0.02) 50%
+  );
+  background-size: 100% 12px;
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 8px;
+}
+
+/* 배당표 팝업 모달 */
+.paytable-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 6, 18, 0.94);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  transition: opacity 0.2s ease;
+}
+
+/* 더블찬스 도전 버튼 */
+.btn-doubleup {
+  background: linear-gradient(180deg, #ff0055 0%, #aa0033 100%);
+  border: 2px solid #ffde59;
+  color: #fff;
+  animation: pulseDoubleUp 0.8s infinite alternate;
+}
+
+@keyframes pulseDoubleUp {
+  0% { transform: scale(1); box-shadow: 0 0 10px #ff0055; }
+  100% { transform: scale(1.06); box-shadow: 0 0 25px #ffde59, 0 0 40px #ff0055; }
+}
+
+.btn-highlow {
+  min-width: 140px;
+  height: 65px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.btn-large-action {
+  min-width: 150px;
+  height: 65px;
+}
+
+.double-controls {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.double-actions {
+  display: flex;
+  gap: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.paytable-modal.hidden {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.paytable-content {
+  background: #110d24;
+  border: 3px solid #ffde59;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 860px;
+  max-height: 95%;
+  overflow-y: auto;
+  padding: 18px 24px;
+  box-shadow: 0 0 40px rgba(255, 222, 89, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ffde59;
+  padding-bottom: 10px;
+}
+
+.modal-header h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  color: #ffde59;
+  letter-spacing: 1px;
+}
+
+.btn-close-modal {
+  background: #ff1744;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #800;
+}
+
+.btn-close-modal:hover {
+  filter: brightness(1.2);
+}
+
+.paytable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.pay-card {
+  background: #1a1433;
+  border: 1.5px solid #3d2f66;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pay-card.card-jackpot {
+  grid-column: 1 / -1;
+  background: linear-gradient(90deg, #571629 0%, #871438 50%, #571629 100%);
+  border-color: #ffde59;
+  box-shadow: 0 0 15px rgba(255, 222, 89, 0.4);
+}
+
+.pay-sym {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffde59;
+}
+
+.pay-desc {
+  font-size: 11px;
+  color: #b0a8cc;
+}
+
+.pay-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: #00ff88;
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+  align-self: flex-end;
+}
+
+.modal-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #8c82a8;
+  border-top: 1px solid #281e47;
+  padding-top: 10px;
+}
+
+/* 컨트롤 패널 & 계기판 */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #140f26;
+  border: 2px solid #3d2c5e;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+/* LED 계기판 */
+.led-dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.led-box {
+  background: #080612;
+  border: 2px solid #231d3d;
+  border-radius: 6px;
+  padding: 6px 10px;
+  text-align: center;
+  box-shadow: inset 0 0 10px #000;
+}
+
+.led-label {
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #837b9b;
+  margin-bottom: 3px;
+  letter-spacing: 1px;
+}
+
+.led-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffde59;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(255, 222, 89, 0.6);
+}
+
+.led-value.highlight {
+  color: #00ff88;
+  text-shadow: 0 0 10px #00ff88;
+}
+
+/* 버튼 대시보드 */
+.btn-dashboard {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-group {
+  display: flex;
+  gap: 6px;
+}
+
+.arcade-btn {
+  position: relative;
+  background: #2b2543;
+  border: 2px solid #5d4a8c;
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 12px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #151024, 0 6px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.08s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.arcade-btn:hover {
+  filter: brightness(1.15);
+}
+
+.arcade-btn:active, .arcade-btn.pressed {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #151024, 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.key-hint {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6.5px;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.btn-text {
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.btn-text small {
+  font-size: 9.5px;
+  opacity: 0.85;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 버튼 테마 색상 */
+.btn-gold {
+  background: linear-gradient(180deg, #f5a623 0%, #b86e00 100%);
+  border-color: #ffd280;
+  color: #2b1700;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.btn-blue {
+  background: linear-gradient(180deg, #0099ff 0%, #005bb8 100%);
+  border-color: #80c8ff;
+  color: #fff;
+  text-shadow: 0 1px 2px #002e5c;
+}
+
+.btn-purple {
+  background: linear-gradient(180deg, #ab47bc 0%, #6a1b9a 100%);
+  border-color: #e1bee7;
+  color: #fff;
+}
+
+.btn-cyan {
+  background: linear-gradient(180deg, #00e5ff 0%, #00838f 100%);
+  border-color: #80deea;
+  color: #002f35;
+}
+
+.btn-stop {
+  background: linear-gradient(180deg, #ffca28 0%, #f57f17 100%);
+  border-color: #fff9c4;
+  color: #3e2723;
+  min-width: 72px;
+}
+
+.btn-red.btn-spin-huge {
+  background: linear-gradient(180deg, #ff1744 0%, #b71c1c 100%);
+  border-color: #ff8a80;
+  color: #fff;
+  font-size: 15px;
+  min-width: 120px;
+  box-shadow: 0 0 20px rgba(255, 23, 68, 0.5), 0 4px 0 #5f0909;
+}
+
+/* 단축키 가이드 바 */
+.shortcut-guide {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  background: #090713;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  color: #7b7296;
+  flex-wrap: wrap;
+}
+
+.shortcut-guide b {
+  color: #00e5ff;
+}
+
+/* 반응형 모바일 축소 */
+@media (max-width: 768px) {
+  .game-title { font-size: 14px; }
+  .dyna-logo { font-size: 16px; }
+  .jackpot-amount { font-size: 14px; }
+  .led-value { font-size: 15px; }
+  .btn-dashboard { justify-content: center; }
+  .arcade-btn { min-width: 60px; padding: 6px 8px; }
+  .btn-text { font-size: 10px; }
+}
